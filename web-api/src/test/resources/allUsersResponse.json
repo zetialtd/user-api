@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "first_name": "Maurise",
+    "last_name": "Shieldon",
+    "email": "mshieldon0@squidoo.com",
+    "ip_address": "192.57.232.111",
+    "latitude": 34.003135,
+    "longitude": -117.7228641
+  },
+  {
+    "id": 266,
+    "first_name": "Ancell",
+    "last_name": "Garnsworthy",
+    "email": "agarnsworthy7d@seattletimes.com",
+    "ip_address": "67.4.69.137",
+    "latitude": 51.6553959,
+    "longitude": 0.0572553
+  }
+]
