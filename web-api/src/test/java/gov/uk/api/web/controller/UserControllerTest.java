@@ -1,5 +1,6 @@
 package gov.uk.api.web.controller;
 
+import gov.uk.api.user.geo.CoordinatesNotFoundException;
 import gov.uk.api.user.model.User;
 import gov.uk.api.user.query.UserQuery;
 import gov.uk.api.web.WebConfiguration;
@@ -17,6 +18,8 @@ import static com.jayway.jsonpath.matchers.JsonPathMatchers.hasJsonPath;
 import static gov.uk.api.user.model.TestData.aUser;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -80,5 +83,15 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(hasJsonPath("$.[0].id", equalTo(110))))
                 .andExpect(content().string(hasJsonPath("$.[1].id", equalTo(120))));
+    }
+
+
+    @Test
+    void findUsersByLocationAndRadius_unknownLocation() throws Exception {
+        when(userQuery.findByLocationAndRadius(eq("theLocation"), anyInt())).thenThrow(new CoordinatesNotFoundException("the error message"));
+
+        mvc.perform(get("/users?location=theLocation&radiusInMiles=19").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("the error message"));
     }
 }
